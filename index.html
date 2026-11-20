@@ -12,7 +12,6 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#86C6F0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 15 L16 4 L28 15 Z' fill='%23F590B4' stroke='%232B2340' stroke-width='2'/%3E%3Crect x='7' y='14' width='18' height='15' fill='%237B57F2' stroke='%232B2340' stroke-width='2'/%3E%3Crect x='13' y='19' width='6' height='10' rx='3' fill='%237FD8B5' stroke='%232B2340' stroke-width='1.5'/%3E%3C/svg%3E">
 <title>oddzip</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -33,12 +32,16 @@ html,body{margin:0}
   --f-body:"Gowun Dodum","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-body{background:var(--grass);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+html{background:var(--sky1);overflow-x:hidden}
+body{position:relative;background:transparent;overflow-x:hidden;max-width:100vw;color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+/* 위아래로 당겨도(바운스) 위는 하늘, 아래는 잔디 색이 보이게 */
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,var(--sky1) 0 50%,var(--grass) 50% 100%);pointer-events:none}
 
-.sky{position:relative;z-index:2;overflow-x:clip;background:linear-gradient(180deg,var(--sky1),var(--sky2) 85%);
-  padding-block:26px 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sky{position:relative;z-index:2;background:linear-gradient(180deg,var(--sky1),var(--sky2) 85%);
+  padding-block:calc(26px + env(safe-area-inset-top, 0px)) 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .sky::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.clouds{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .cloud{position:absolute;height:34px;background:#fff;border-radius:40px;opacity:.95;animation:drift linear infinite}
 .cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
 .cloud::before{width:44px;height:44px;left:16px;top:-22px}.cloud::after{width:30px;height:30px;left:52px;top:-14px}
@@ -99,7 +102,7 @@ a,button,.room,[role="button"],canvas{cursor:var(--cur-button,pointer)!important
 .twinkle:nth-of-type(2n){animation-delay:-1.2s}
 @keyframes tw{50%{transform:rotate(25deg) scale(1.25)}}
 
-.grass{position:relative;padding-block:60px 30px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:var(--grass)}
+.grass{position:relative;padding-block:60px calc(30px + env(safe-area-inset-bottom, 0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:var(--grass)}
 .grass::before{content:"";position:absolute;left:-15%;right:-15%;top:-44px;height:110px;border-radius:50%;background:var(--grass)}
 .grass-in{position:relative;max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
 
@@ -206,8 +209,7 @@ footer{font-family:var(--f-hand);font-size:17px;color:#0F3B0B;text-align:center}
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="roughD"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter><filter id="crayon"><feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" result="n"/><feColorMatrix in="n" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.6" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in" result="t"/><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" result="w"/><feDisplacementMap in="t" in2="w" scale="3"/></filter></svg>
 <div class="sky">
-  <div class="cloud c1" aria-hidden="true"></div>
-  <div class="cloud c2" aria-hidden="true"></div>
+  <div class="clouds" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c2"></div></div>
   <div class="head">
     <h1 class="word-a">oddzip</h1>
     <p class="speech">똑똑, 방 눌러봐요!<small>안에 뭐가 살까요?</small></p>
